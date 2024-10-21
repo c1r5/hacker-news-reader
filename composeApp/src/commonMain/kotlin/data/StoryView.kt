@@ -11,13 +11,15 @@ data class StoryView(
     val commentsCount: Int?,
 ) {
     companion object {
-        fun from(story: Story?): StoryView = StoryView(
-            id = story?.id,
-            title = story?.title,
-            author = story?.by,
-            scoreCount = story?.score,
-            commentsCount = story?.descendants,
-            postedAt = "${story?.time?.let { elapsedHours(it) }}h"
-        )
+        fun from(story: Story?): StoryView? = story?.let {
+            StoryView(
+                id = story.id,
+                title = story.title,
+                author = story.by,
+                scoreCount = story.score,
+                commentsCount = story.descendants,
+                postedAt = "${story.time?.let { elapsedHours(it) }}h"
+            )
+        }
     }
 }

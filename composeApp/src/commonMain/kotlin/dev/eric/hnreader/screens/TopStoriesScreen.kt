@@ -20,6 +20,9 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -28,12 +31,41 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
 import data.StoryView
+import dev.eric.hnreader.koinViewModel
+import dev.eric.hnreader.util.LoadingProgressIndicator
+import dev.eric.hnreader.util.infiniteList
+import dev.eric.hnreader.viewmodels.HackerNewsViewModel
+import dev.eric.hnreader.viewmodels.StoryLoadState
 
 @Composable
-fun TopStories(stories: List<StoryView> = emptyList()) {
+fun TopStories(viewModel: HackerNewsViewModel = koinViewModel()) {
+    val loadState by viewModel.storyLoadState.collectAsState()
+    val stories by viewModel.stories.collectAsState()
+
+    LaunchedEffect(Unit) {
+        viewModel.nextStories()
+    }
+
     LazyColumn {
-        items(stories.size) { index ->
+        infiniteList(
+            stories.size,
+            onReachEnd = {
+                if (loadState != StoryLoadState.Loading) {
+                    LaunchedEffect(Unit) {
+                        viewModel.setStoryLoadState(StoryLoadState.Loading)
+                        viewModel.nextStories()
+                        viewModel.increasePage()
+                    }
+                }
+            }
+        ) { index ->
             StoryCard(stories[index])
+        }
+
+        item {
+            if (loadState == StoryLoadState.Loading) {
+                LoadingProgressIndicator()
+            }
         }
     }
 }
