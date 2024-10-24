@@ -1,5 +1,7 @@
 package dev.eric.hnreader.util
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
@@ -26,8 +28,15 @@ fun LazyListScope.infiniteList(
 
 @Composable
 fun LoadingProgressIndicator() {
-    CircularProgressIndicator(
-        modifier = Modifier.size(24.dp).fillMaxWidth().wrapContentSize(Alignment.Center),
-        strokeWidth = 2.dp
-    )
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.Center
+    ) {
+        CircularProgressIndicator(
+            modifier = Modifier.size(24.dp)
+                .fillMaxWidth()
+                .wrapContentSize(Alignment.Center),
+            strokeWidth = 2.dp
+        )
+    }
 }
