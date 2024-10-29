@@ -43,7 +43,12 @@ class HackerNewsViewModel(
                     val story = hackerNewsRepository.getStory(storyId)
                     StoryView.from(story)
                 }
-                _stories.emit((_stories.value + storiesView).distinct())
+
+                val currentStories = (_stories.value + storiesView)
+                    .distinctBy { it.id }
+                    .sortedByDescending { it.postedAt }
+
+                _stories.emit(currentStories)
                 setStoryLoadState(StoryLoadState.Success)
             }
         }

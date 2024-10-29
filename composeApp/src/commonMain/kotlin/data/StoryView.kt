@@ -1,12 +1,10 @@
 package data
 
-import dev.eric.hnreader.util.elapsedHours
-
 data class StoryView(
     val id: Long?,
     val author: String?,
     val title: String?,
-    val postedAt: String?,
+    val postedAt: Long?,
     val scoreCount: Int?,
     val commentsCount: Int?,
 ) {
@@ -18,7 +16,7 @@ data class StoryView(
                 author = story.by,
                 scoreCount = story.score,
                 commentsCount = story.descendants,
-                postedAt = "${story.time?.let { elapsedHours(it) }}h"
+                postedAt = story.time
             )
         }
     }

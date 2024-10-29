@@ -22,46 +22,56 @@ kotlin {
 
     sourceSets {
         val desktopMain by getting
-
-        androidUnitTest.dependencies {
-            implementation(libs.bundles.tests)
+        val commonMain by getting {
+            resources.srcDirs("src/commonMain/commonResources")
         }
-        androidMain.dependencies {
-            implementation(compose.preview)
-            implementation(libs.androidx.activity.compose)
-            implementation(libs.ktor.client.okhttp)
-            implementation(libs.koin.android)
-            implementation(libs.koin.androidx.compose)
+        val androidMain by getting {
+            resources.srcDirs("src/androidMain/res", "src/commonMain/commonResources")
         }
-        commonMain.dependencies {
-            implementation(compose.animation)
-            implementation(compose.runtime)
-            implementation(compose.foundation)
-            implementation(compose.material)
-            implementation(compose.material3)
-            implementation(compose.ui)
-            implementation(compose.components.resources)
-            implementation(compose.components.uiToolingPreview)
-            
-            implementation(libs.bundles.ktor)
-            implementation(libs.kotlin.test)
-            implementation(libs.kotlinx.datetime)
-            implementation(libs.koin.compose)
+        val androidUnitTest by getting {
+            dependencies {
+                implementation(kotlin("test"))
+            }
+            androidUnitTest.dependencies {
+                implementation(libs.bundles.tests)
+            }
+            androidMain.dependencies {
+                implementation(compose.preview)
+                implementation(libs.androidx.activity.compose)
+                implementation(libs.ktor.client.okhttp)
+                implementation(libs.koin.android)
+                implementation(libs.koin.androidx.compose)
+            }
+            commonMain.dependencies {
+                implementation(compose.animation)
+                implementation(compose.runtime)
+                implementation(compose.foundation)
+                implementation(compose.material)
+                implementation(compose.material3)
+                implementation(compose.ui)
+                implementation(compose.components.resources)
+                implementation(compose.components.uiToolingPreview)
+                implementation(compose.materialIconsExtended)
+                implementation(libs.bundles.ktor)
+                implementation(libs.kotlin.test)
+                implementation(libs.kotlinx.datetime)
+                implementation(libs.koin.compose)
 
-            implementation(libs.androidx.lifecycle.viewmodel.compose)
-            implementation(libs.androidx.lifecycle.runtime.compose)
-            implementation(libs.androidx.navigation.compose)
-            implementation(libs.androidx.lifecycle.viewmodel.compose)
+                implementation(libs.androidx.lifecycle.viewmodel.compose)
+                implementation(libs.androidx.lifecycle.runtime.compose)
+                implementation(libs.androidx.navigation.compose)
+                implementation(libs.androidx.lifecycle.viewmodel.compose)
 
-            api(libs.koin.core)
+                api(libs.koin.core)
 
 
-        }
-        desktopMain.dependencies {
-            implementation(compose.desktop.currentOs)
-            implementation(libs.koin.core)
-            implementation(libs.ktor.client.okhttp)
-            implementation(libs.kotlinx.coroutines.swing)
+            }
+            desktopMain.dependencies {
+                implementation(compose.desktop.currentOs)
+                implementation(libs.koin.core)
+                implementation(libs.ktor.client.okhttp)
+                implementation(libs.kotlinx.coroutines.swing)
+            }
         }
     }
 }
@@ -69,7 +79,9 @@ kotlin {
 android {
     namespace = "dev.eric.hnreader"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
-
+    sourceSets["main"].apply {
+        res.srcDirs("src/androidMain/res", "src/commonMain/commonResources")
+    }
     defaultConfig {
         applicationId = "dev.eric.hnreader"
         minSdk = libs.versions.android.minSdk.get().toInt()
@@ -96,6 +108,12 @@ android {
 dependencies {
     implementation(libs.androidx.material3.android)
     debugImplementation(compose.uiTooling)
+}
+
+compose.resources {
+    publicResClass = true
+    packageOfResClass = "dev.eric.hnreader.resources"
+    generateResClass = auto
 }
 
 compose.desktop {

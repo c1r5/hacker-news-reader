@@ -16,7 +16,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.sp
 import dev.eric.hnreader.App
 import dev.eric.hnreader.appTitle
 
@@ -38,7 +40,15 @@ fun AndroidInterface(composable: @Composable () -> Unit) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(appTitle) },
+                title = {
+                    Text(
+                        text = appTitle,
+                        color = Color.White,
+                        style = TextStyle.Default.copy(
+                            fontSize = 18.sp
+                        )
+                    )
+                },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = Color(appBarColor),
                     titleContentColor = Color.White
@@ -48,9 +58,9 @@ fun AndroidInterface(composable: @Composable () -> Unit) {
         bottomBar = {
             BottomAppBar(containerColor = Color(appBarColor)) { }
         }
-    ) {
+    ) { innerPadding ->
         Box(
-            modifier = Modifier.padding(it).fillMaxSize(),
+            modifier = Modifier.padding(innerPadding).fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
             composable()
