@@ -15,8 +15,8 @@ class HackerNewsViewModel(
     private val hackerNewsRepository: HackerNewsRepository
 ) : ViewModel() {
 
-    private val _stories = MutableStateFlow<List<StoryView>>(emptyList())
-    val stories = _stories.asStateFlow()
+    private val _storiesView = MutableStateFlow<List<StoryView>>(emptyList())
+    val storiesView = _storiesView.asStateFlow()
 
     private val _storyLoadState = MutableStateFlow<StoryLoadState?>(null)
     val storyLoadState = _storyLoadState.asStateFlow()
@@ -24,10 +24,12 @@ class HackerNewsViewModel(
     private val _chunkedStories = MutableStateFlow<List<Stories>>(emptyList())
     private val _currentPageIndex = MutableStateFlow(0)
 
+    private val selectedStory = MutableStateFlow<StoryView?>(null)
+    val selectedStoryView = selectedStory.asStateFlow()
+
     init {
         getTopStories()
     }
-
 
     private fun getTopStories() = viewModelScope.launch {
         val topStories = hackerNewsRepository.getTopStories()
@@ -44,11 +46,11 @@ class HackerNewsViewModel(
                     StoryView.from(story)
                 }
 
-                val currentStories = (_stories.value + storiesView)
+                val currentStories = (_storiesView.value + storiesView)
                     .distinctBy { it.id }
                     .sortedByDescending { it.postedAt }
 
-                _stories.emit(currentStories)
+                _storiesView.emit(currentStories)
                 setStoryLoadState(StoryLoadState.Success)
             }
         }
@@ -63,6 +65,12 @@ class HackerNewsViewModel(
     fun increasePage() {
         viewModelScope.launch {
             _currentPageIndex.emit(_currentPageIndex.value + 1)
+        }
+    }
+
+    fun onStoryClick(storyView: StoryView) {
+        viewModelScope.launch {
+            selectedStory.emit(storyView)
         }
     }
 }
