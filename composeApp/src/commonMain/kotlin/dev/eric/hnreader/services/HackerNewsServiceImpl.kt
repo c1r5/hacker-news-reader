@@ -24,6 +24,7 @@ class HackerNewsServiceImpl(
         }
 
         val content = response.bodyAsText()
+        println(content)
         ApiResponseDTO.fromJson(content)
     }
 }

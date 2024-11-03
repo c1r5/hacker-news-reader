@@ -42,7 +42,7 @@ data class ApiResponseDTO(
 @Serializable
 sealed class HitDTO {
     abstract val author: String
-    abstract val children: List<Long>
+    abstract val children: List<Long>?
     abstract val createdAt: String
     abstract val createdAtI: Long
     abstract val objectID: String
@@ -53,7 +53,7 @@ sealed class HitDTO {
     @Serializable
     data class AskHitDTO(
         override val author: String,
-        override val children: List<Long>,
+        override val children: List<Long> = emptyList(),
         @SerialName("created_at")
         override val createdAt: String,
         @SerialName("created_at_i")
@@ -74,7 +74,7 @@ sealed class HitDTO {
     @Serializable
     data class StoryHitDTO(
         override val author: String,
-        override val children: List<Long>,
+        override val children: List<Long> = emptyList(),
         @SerialName("created_at")
         override val createdAt: String,
         @SerialName("created_at_i")
@@ -94,7 +94,7 @@ sealed class HitDTO {
     @Serializable
     data class PollHitDTO(
         override val author: String,
-        override val children: List<Long>,
+        override val children: List<Long> = emptyList(),
         override val createdAt: String,
         override val createdAtI: Long,
         @SerialName("num_comments")
@@ -110,7 +110,7 @@ sealed class HitDTO {
     @Serializable
     data class CommentHitDTO(
         override val author: String,
-        override val children: List<Long>,
+        override val children: List<Long> = emptyList(),
         @SerialName("comment_text")
         val commentText: String,
         override val createdAt: String,

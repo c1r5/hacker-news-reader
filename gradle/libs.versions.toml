@@ -20,9 +20,12 @@ koinComposeMultiplatform = "1.2.0-alpha3"
 androidx-lifecycle = "2.8.2"
 androidx-navigation = "2.7.0-alpha06"
 compose-plugin = "1.6.11"
+pagingRuntime = "3.3.2"
 uiToolingPreview = "1.6.11"
 
 [libraries]
+androidx-paging-compose = { module = "androidx.paging:paging-compose", version.ref = "pagingRuntime" }
+androidx-paging-runtime = { module = "androidx.paging:paging-runtime", version.ref = "pagingRuntime" }
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinxCoroutinesTest" }
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetime" }
 kotlinx-coroutines-swing = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-swing", version.ref = "kotlinx-coroutines" }

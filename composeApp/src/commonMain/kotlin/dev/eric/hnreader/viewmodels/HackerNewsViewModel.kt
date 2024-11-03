@@ -9,6 +9,7 @@ import dev.eric.hnreader.models.dtos.HitDTO
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import kotlin.math.pow
 
 class HackerNewsViewModel(
     private val service: HackerNewsService,
@@ -20,7 +21,7 @@ class HackerNewsViewModel(
     val currentPage = _currentPage.asStateFlow()
 
 
-    fun getFrontPage() {
+    fun getFrontPage(page: Int = 0) {
         viewModelScope.launch {
             service.search(
                 service.defaultPayload.apply {
@@ -29,7 +30,13 @@ class HackerNewsViewModel(
                 }
             ).onSuccess {
                 val hits = it.hits
-                _stories.emit(hits)
+                val sortedStories = hits.sortedByDescending {
+                    val points = it.points ?: 0
+                    val hoursSinceCreation =
+                        (System.currentTimeMillis() - it.createdAtI) / 3600000.0
+                    calcularTendencia(points, hoursSinceCreation)
+                }
+                _stories.emit(sortedStories)
             }.onFailure {
                 println(it)
             }
@@ -37,3 +44,7 @@ class HackerNewsViewModel(
     }
 }
 
+
+fun calcularTendencia(votos: Int, horas: Double, gamma: Double = 2.0): Double {
+    return votos / (1 + horas).pow(gamma)
+}

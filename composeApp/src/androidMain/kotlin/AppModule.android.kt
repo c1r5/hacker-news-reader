@@ -1,3 +1,4 @@
+import dev.eric.hnreader.datasources.FrontScreenPagingSource
 import dev.eric.hnreader.models.HackerNewsService
 import dev.eric.hnreader.network.createHttpClient
 import dev.eric.hnreader.services.HackerNewsServiceImpl
@@ -9,5 +10,6 @@ import org.koin.dsl.module
 actual val appModule = module {
     single { createHttpClient(OkHttp.create()) }
     single<HackerNewsService> { HackerNewsServiceImpl(get()) }
+    single { FrontScreenPagingSource(get()) }
     viewModelOf(::HackerNewsViewModel)
 }

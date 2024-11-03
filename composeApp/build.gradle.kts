@@ -61,7 +61,8 @@ kotlin {
             implementation(libs.androidx.lifecycle.runtime.compose)
             implementation(libs.androidx.navigation.compose)
             implementation(libs.androidx.lifecycle.viewmodel.compose)
-
+            implementation(libs.androidx.paging.runtime)
+            implementation(libs.androidx.paging.compose)
             api(libs.koin.core)
 
             implementation(libs.kotlinx.coroutines.test)
