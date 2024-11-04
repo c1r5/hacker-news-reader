@@ -41,6 +41,8 @@ kotlin {
             implementation(libs.koin.android)
             implementation(libs.koin.androidx.compose)
             implementation(libs.ui.tooling.preview)
+            implementation(libs.androidx.paging.runtime)
+            implementation(libs.androidx.paging.compose)
         }
         commonMain.dependencies {
             implementation(compose.animation)
@@ -56,16 +58,15 @@ kotlin {
             implementation(libs.kotlin.test)
             implementation(libs.kotlinx.datetime)
             implementation(libs.koin.compose)
+            implementation(libs.androidx.lifecycle.viewmodel.ktx)
+            implementation(libs.androidx.lifecycle.viewmodel.compose)
 
-            implementation(libs.androidx.lifecycle.viewmodel.compose)
-            implementation(libs.androidx.lifecycle.runtime.compose)
+
             implementation(libs.androidx.navigation.compose)
-            implementation(libs.androidx.lifecycle.viewmodel.compose)
-            implementation(libs.androidx.paging.runtime)
-            implementation(libs.androidx.paging.compose)
+            implementation(libs.kotlinx.coroutines.test)
+            implementation(libs.androidx.paging.common)
             api(libs.koin.core)
 
-            implementation(libs.kotlinx.coroutines.test)
 
         }
         desktopMain.dependencies {

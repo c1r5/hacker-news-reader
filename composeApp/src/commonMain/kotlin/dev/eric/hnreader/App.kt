@@ -24,7 +24,9 @@ fun App() {
             startDestination = "front_page"
         ) {
             composable("front_page") {
-                FrontScreen()
+                FrontScreen(
+                    viewModel = koinViewModel()
+                )
             }
         }
     }

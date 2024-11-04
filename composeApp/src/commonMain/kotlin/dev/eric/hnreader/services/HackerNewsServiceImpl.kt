@@ -7,10 +7,11 @@ import io.ktor.client.HttpClient
 import io.ktor.client.request.get
 import io.ktor.client.statement.bodyAsText
 
+const val PROD_URL = "https://hn.algolia.com"
 
 class HackerNewsServiceImpl(
     override val httpClient: HttpClient,
-    override val baseURL: String = "https://hn.algolia.com/api/v1/"
+    override val baseURL: String = "$PROD_URL/api/v1/"
 ) : HackerNewsService {
     override suspend fun search(payload: SearchPayload) = runCatching {
         val stringURL = baseURL + if (payload.byDate) "search_by_date" else "search"
@@ -24,7 +25,7 @@ class HackerNewsServiceImpl(
         }
 
         val content = response.bodyAsText()
-        println(content)
+
         ApiResponseDTO.fromJson(content)
     }
 }

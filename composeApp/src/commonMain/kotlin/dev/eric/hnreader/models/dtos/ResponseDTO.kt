@@ -19,8 +19,8 @@ import kotlinx.serialization.modules.polymorphic
 data class ApiResponseDTO(
     @Serializable(with = HitListSerializer::class)
     val hits: List<HitDTO>,
-    val hitsPerPage: Long,
-    val page: Long,
+    val hitsPerPage: Int,
+    val page: Int,
 ) {
     companion object {
         private val json = Json {
@@ -80,14 +80,14 @@ sealed class HitDTO {
         @SerialName("created_at_i")
         override val createdAtI: Long,
         override val objectID: String,
-        override val points: Int,
+        override val points: Int? = 0,
         override val title: String,
         @SerialName("updated_at")
         override val updatedAt: String,
         @SerialName("num_comments")
-        val numComments: Long,
+        val numComments: Long? = 0,
         @SerialName("story_id")
-        val storyId: Long,
+        val storyId: Long? = null,
         val url: String
     ) : HitDTO()
 

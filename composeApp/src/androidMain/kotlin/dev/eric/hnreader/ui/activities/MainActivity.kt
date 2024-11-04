@@ -31,7 +31,7 @@ import androidx.compose.ui.unit.sp
 import dev.eric.hnreader.App
 import dev.eric.hnreader.appTitle
 import dev.eric.hnreader.models.dtos.HitDTO
-import dev.eric.hnreader.screens.StoryList
+import dev.eric.hnreader.screens.FrontscreenMock
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -132,7 +132,7 @@ fun AppAndroidPreview() {
         })
     }
     AndroidInterface {
-        StoryList(storyItems)
+        FrontscreenMock(storyItems)
     }
 }
 

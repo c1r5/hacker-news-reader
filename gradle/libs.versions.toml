@@ -4,28 +4,31 @@ android-compileSdk = "34"
 android-minSdk = "24"
 android-targetSdk = "34"
 androidx-activityCompose = "1.9.3"
-androidx-core-ktx = "1.13.1"
+androidx-core-ktx = "1.15.0"
 androidx-espresso-core = "3.6.1"
 androidx-test-junit = "1.2.1"
 junit = "4.13.2"
 kotlin = "2.0.20"
-kotlinxCoroutinesTest = "1.7.3"
-material3Android = "1.3.0"
+kotlinxCoroutinesTest = "1.9.0"
+lifecycleViewmodelKtx = "2.8.7"
+material3Android = "1.3.1"
 kotlinx-coroutines = "1.9.0"
 kotlinx-datetime = "0.6.1"
 ktor = "2.3.12"
 koin = "3.6.0-alpha3"
 koinCompose = "3.6.0-alpha3"
 koinComposeMultiplatform = "1.2.0-alpha3"
-androidx-lifecycle = "2.8.2"
 androidx-navigation = "2.7.0-alpha06"
 compose-plugin = "1.6.11"
-pagingRuntime = "3.3.2"
+pagingRuntimeVersion = "3.3.2"
 uiToolingPreview = "1.6.11"
 
 [libraries]
-androidx-paging-compose = { module = "androidx.paging:paging-compose", version.ref = "pagingRuntime" }
-androidx-paging-runtime = { module = "androidx.paging:paging-runtime", version.ref = "pagingRuntime" }
+androidx-lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycleViewmodelKtx" }
+androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycleViewmodelKtx" }
+androidx-paging-common = { module = "androidx.paging:paging-common", version.ref = "pagingRuntimeVersion" }
+androidx-paging-compose = { module = "androidx.paging:paging-compose", version.ref = "pagingRuntimeVersion" }
+androidx-paging-runtime = { module = "androidx.paging:paging-runtime", version.ref = "pagingRuntimeVersion" }
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinxCoroutinesTest" }
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetime" }
 kotlinx-coroutines-swing = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-swing", version.ref = "kotlinx-coroutines" }
@@ -50,8 +53,9 @@ koin-androidx-compose = { module = "io.insert-koin:koin-androidx-compose", versi
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
 koin-compose = { module = "io.insert-koin:koin-compose", version.ref = "koinComposeMultiplatform" }
 
-androidx-lifecycle-runtime-compose = { module = "org.jetbrains.androidx.lifecycle:lifecycle-runtime-compose", version.ref = "androidx-lifecycle" }
-androidx-lifecycle-viewmodel-compose = { module = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "androidx-lifecycle" }
+
+#androidx-lifecycle-runtime-compose = { module = "org.jetbrains.androidx.lifecycle:lifecycle-runtime-compose", version.ref = "androidx-lifecycle" }
+#androidx-lifecycle-viewmodel-compose = { module = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "androidx-lifecycle" }
 androidx-navigation-compose = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "androidx-navigation" }
 ui-tooling-preview = { module = "org.jetbrains.compose.ui:ui-tooling-preview", version.ref = "uiToolingPreview" }
 
