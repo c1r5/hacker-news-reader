@@ -6,7 +6,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import dev.eric.hnreader.screens.FrontScreen
+import dev.eric.hnreader.screens.frontscreen.FrontScreen
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.KoinContext
 import org.koin.compose.currentKoinScope
@@ -21,13 +21,17 @@ fun App() {
 
         NavHost(
             navController = navController,
-            startDestination = "front_page"
+            startDestination = "front_screen"
         ) {
-            composable("front_page") {
+            composable("front_screen") {
                 FrontScreen(
                     viewModel = koinViewModel()
                 )
             }
+
+            composable("news_screen") {}
+
+            composable("jobs_screen") {}
         }
     }
 }

@@ -1,6 +1,5 @@
 package dev.eric.hnreader.ui.activities
 
-import android.graphics.drawable.Icon
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -10,6 +9,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Icon
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.TrendingUp
+import androidx.compose.material.icons.rounded.Newspaper
+import androidx.compose.material.icons.rounded.Work
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -31,7 +32,7 @@ import androidx.compose.ui.unit.sp
 import dev.eric.hnreader.App
 import dev.eric.hnreader.appTitle
 import dev.eric.hnreader.models.dtos.HitDTO
-import dev.eric.hnreader.screens.FrontscreenMock
+import dev.eric.hnreader.screens.frontscreen.FrontscreenMock
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,6 +43,7 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
+
 data class NavItem(
     val icon: ImageVector,
     val label: String
@@ -55,6 +57,14 @@ fun AndroidInterface(composable: @Composable () -> Unit) {
             icon = Icons.AutoMirrored.Filled.TrendingUp,
             label = "Top Stories"
         ),
+        NavItem(
+            icon = Icons.Rounded.Newspaper,
+            label = "New Stories"
+        ),
+        NavItem(
+            icon = Icons.Rounded.Work,
+            label = "Jobs"
+        )
     )
 
     var selectedItem by remember { mutableStateOf(navItems.first()) }
@@ -81,7 +91,7 @@ fun AndroidInterface(composable: @Composable () -> Unit) {
                 BottomAppBar(
                     containerColor = MaterialTheme.colorScheme.surfaceContainer
                 ) {
-                    navItems.forEach {navItem ->
+                    navItems.forEach { navItem ->
                         NavigationBarItem(
                             selected = navItem == selectedItem,
                             onClick = {
