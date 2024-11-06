@@ -1,4 +1,4 @@
-package dev.eric.hnreader.screens.frontscreen
+package dev.eric.hnreader.util
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.Comment
@@ -25,11 +26,19 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import dev.eric.hnreader.models.dtos.HitDTO
-import dev.eric.hnreader.util.elapsedTime
 import kotlinx.datetime.DateTimeUnit
 
 @Composable
-fun NewsItem(hit: HitDTO) {
+fun PostList(itemCount: Int, itemContent: @Composable (Int) -> Unit) {
+    LazyColumn {
+        items(itemCount) { index ->
+            itemContent(index)
+        }
+    }
+}
+
+@Composable
+fun PostItem(hit: HitDTO) {
 
     Card(
         modifier = Modifier.fillMaxWidth().padding(10.dp),
@@ -40,12 +49,12 @@ fun NewsItem(hit: HitDTO) {
             contentAlignment = Alignment.CenterStart
         ) {
             Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-                NewsTitle(hit)
+                PostTitle(hit)
                 Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                    NewsPointsCount(hit)
-                    NewsCommentsCount(hit)
-                    NewsCreatedAt(hit)
-                    NewsAuthor(hit)
+                    PostPointsCount(hit)
+                    PostCommentsCount(hit)
+                    PostCreatedAt(hit)
+                    PostAuthor(hit)
                 }
             }
         }
@@ -53,7 +62,7 @@ fun NewsItem(hit: HitDTO) {
 }
 
 @Composable
-fun NewsTitle(hit: HitDTO) {
+private fun PostTitle(hit: HitDTO) {
     val title = hit.title
     Text(
         text = title,
@@ -63,7 +72,7 @@ fun NewsTitle(hit: HitDTO) {
 }
 
 @Composable
-fun NewsCreatedAt(hit: HitDTO) {
+private fun PostCreatedAt(hit: HitDTO) {
     val timestamp = hit.createdAtI
     val elapsedTime = elapsedTime(timestamp)
     val timeUnit = when (elapsedTime.unit) {
@@ -80,20 +89,16 @@ fun NewsCreatedAt(hit: HitDTO) {
     }
     val timeString = "${elapsedTime.time}$timeUnit"
 
-    NewsMetadata(
+    PostMetadata(
         icon = Icons.Rounded.AccessTime,
         value = timeString
     )
 }
 
 @Composable
-fun NewsCommentsCount(hit: HitDTO) {
+private fun PostCommentsCount(hit: HitDTO) {
     val commentsCount = when (hit) {
         is HitDTO.AskHitDTO -> {
-            hit.numComments
-        }
-
-        is HitDTO.PollHitDTO -> {
             hit.numComments
         }
 
@@ -106,7 +111,7 @@ fun NewsCommentsCount(hit: HitDTO) {
 
     commentsCount?.let { count ->
         val countString = if (count >= 100) "99+" else count.toString()
-        NewsMetadata(
+        PostMetadata(
             icon = Icons.AutoMirrored.Outlined.Comment,
             value = countString
         )
@@ -114,9 +119,9 @@ fun NewsCommentsCount(hit: HitDTO) {
 }
 
 @Composable
-fun NewsPointsCount(hit: HitDTO) {
+private fun PostPointsCount(hit: HitDTO) {
     hit.points?.let { points ->
-        NewsMetadata(
+        PostMetadata(
             icon = Icons.Rounded.PlayArrow,
             value = points.toString(),
             iconModifier = Modifier.rotate(-90f)
@@ -125,16 +130,16 @@ fun NewsPointsCount(hit: HitDTO) {
 }
 
 @Composable
-fun NewsAuthor(hit: HitDTO) {
+private fun PostAuthor(hit: HitDTO) {
     val author = hit.author
-    NewsMetadata(
+    PostMetadata(
         icon = Icons.Rounded.Person,
         value = author
     )
 }
 
 @Composable
-fun NewsMetadata(icon: ImageVector, value: String, iconModifier: Modifier = Modifier) {
+private fun PostMetadata(icon: ImageVector, value: String, iconModifier: Modifier = Modifier) {
     Row(
         horizontalArrangement = Arrangement.spacedBy(5.dp)
     ) {

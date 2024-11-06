@@ -3,16 +3,16 @@ package dev.eric.hnreader.ui.activities
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Icon
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.TrendingUp
 import androidx.compose.material.icons.rounded.Newspaper
 import androidx.compose.material.icons.rounded.Work
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
@@ -20,106 +20,153 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.unit.sp
 import dev.eric.hnreader.App
-import dev.eric.hnreader.appTitle
+import dev.eric.hnreader.koinViewModel
 import dev.eric.hnreader.models.dtos.HitDTO
-import dev.eric.hnreader.screens.frontscreen.FrontscreenMock
+import dev.eric.hnreader.screens.jobs.JobsScreen
+import dev.eric.hnreader.screens.news.NewsScreen
+import dev.eric.hnreader.screens.trends.TrendsScreen
+import dev.eric.hnreader.screens.trends.TrendsScreenMock
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContent {
-            AndroidInterface { App() }
+            App {
+                AndroidInterface()
+            }
         }
     }
 }
 
-data class NavItem(
+class TopAppBarItem(
+    val title: String,
+)
+
+class BottomAppBarItem(
     val icon: ImageVector,
     val label: String
 )
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun AndroidInterface(composable: @Composable () -> Unit) {
-    val navItems = listOf(
-        NavItem(
+sealed class ScreenLayout(
+    val topAppBar: TopAppBarItem,
+    val bottomAppBar: BottomAppBarItem,
+) {
+    data object Trends : ScreenLayout(
+        topAppBar = TopAppBarItem(
+            title = "Top Stories"
+        ),
+        bottomAppBar = BottomAppBarItem(
             icon = Icons.AutoMirrored.Filled.TrendingUp,
             label = "Top Stories"
+        )
+    )
+
+    data object News : ScreenLayout(
+        topAppBar = TopAppBarItem(
+            title = "Hacker News"
         ),
-        NavItem(
+        bottomAppBar = BottomAppBarItem(
             icon = Icons.Rounded.Newspaper,
-            label = "New Stories"
+            label = "News"
+        )
+    )
+
+    data object Jobs : ScreenLayout(
+        topAppBar = TopAppBarItem(
+            title = "Jobs"
         ),
-        NavItem(
+        bottomAppBar = BottomAppBarItem(
             icon = Icons.Rounded.Work,
             label = "Jobs"
         )
     )
+}
 
-    var selectedItem by remember { mutableStateOf(navItems.first()) }
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun AndroidInterface(mockScreen: @Composable (Modifier) -> Unit = {}) {
+    val topics = remember {
+        listOf(
+            ScreenLayout.Trends,
+            ScreenLayout.News,
+            ScreenLayout.Jobs
+        )
+    }
 
-    MaterialTheme {
-        Scaffold(
-            topBar = {
-                TopAppBar(
-                    title = {
-                        Text(
-                            text = appTitle,
-                            style = TextStyle.Default.copy(
-                                fontSize = 18.sp
-                            )
-                        )
-                    },
-                    colors = TopAppBarDefaults.topAppBarColors(
-                        containerColor = MaterialTheme.colorScheme.surfaceContainer,
-                        titleContentColor = MaterialTheme.colorScheme.inverseSurface
-                    )
-                )
-            },
-            bottomBar = {
-                BottomAppBar(
-                    containerColor = MaterialTheme.colorScheme.surfaceContainer
-                ) {
-                    navItems.forEach { navItem ->
+    var currentTopic by remember { mutableStateOf(topics[1]) }
+
+    val pagerState = rememberPagerState {
+        topics.size
+    }
+
+    LaunchedEffect(currentTopic) {
+        pagerState.animateScrollToPage(topics.indexOf(currentTopic))
+    }
+
+    LaunchedEffect(
+        pagerState.targetPage
+    ) {
+        currentTopic = topics[pagerState.targetPage]
+    }
+
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { AppBarTitle(currentTopic.topAppBar.title) },
+                colors = appBarColors()
+            )
+        },
+        bottomBar = {
+            BottomAppBar(
+                containerColor = MaterialTheme.colorScheme.surfaceContainer
+            ) {
+                topics.forEach { screen ->
+                    with(screen.bottomAppBar) {
                         NavigationBarItem(
-                            selected = navItem == selectedItem,
-                            onClick = {
-                                selectedItem = navItem
-                            },
-                            icon = {
-                                Icon(navItem.icon, contentDescription = null)
-                            },
-
-                            label = {
-                                Text(navItem.label)
-                            }
-                        )
+                            icon = { Icon(icon, contentDescription = null) },
+                            label = { Text(label) },
+                            selected = currentTopic == screen,
+                            onClick = { currentTopic = screen })
                     }
                 }
             }
-        ) { innerPadding ->
-            Box(
-                modifier = Modifier
-                    .padding(innerPadding)
-                    .fillMaxSize(),
-                contentAlignment = Alignment.Center
-            ) {
-                composable()
+        }
+    ) { innerPadding ->
+        HorizontalPager(
+            pagerState,
+            modifier = Modifier.padding(innerPadding)
+        ) { page ->
+            val item = topics[page]
+            when (item) {
+                ScreenLayout.Trends -> TrendsScreen(koinViewModel())
+                ScreenLayout.News -> NewsScreen(koinViewModel())
+                ScreenLayout.Jobs -> JobsScreen(koinViewModel())
             }
         }
     }
 }
+
+@Composable
+fun AppBarTitle(title: String) = Text(
+    text = title,
+    style = MaterialTheme.typography.titleLarge
+)
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun appBarColors() = TopAppBarDefaults.topAppBarColors(
+    containerColor = MaterialTheme.colorScheme.surfaceContainer,
+    titleContentColor = MaterialTheme.colorScheme.inverseSurface
+)
 
 @Composable
 @androidx.compose.ui.tooling.preview.Preview
@@ -142,7 +189,10 @@ fun AppAndroidPreview() {
         })
     }
     AndroidInterface {
-        FrontscreenMock(storyItems)
+        TrendsScreenMock(
+            modifier = it,
+            hits = storyItems
+        )
     }
 }
 

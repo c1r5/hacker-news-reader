@@ -1,8 +1,7 @@
-package dev.eric.hnreader.screens.frontscreen
+package dev.eric.hnreader.screens.news
 
 import androidx.compose.runtime.Composable
 import dev.eric.hnreader.viewmodels.HackerNewsViewModel
 
 @Composable
-actual fun FrontScreen(viewModel: HackerNewsViewModel) {
-}
+expect fun NewsScreen(viewModel: HackerNewsViewModel)

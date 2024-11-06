@@ -9,8 +9,12 @@ import dev.eric.hnreader.datasources.HackerNewsRepository
 class HackerNewsViewModel(
     private val hackerNewsRepository: HackerNewsRepository
 ) : ViewModel() {
-    val frontPageHits = hackerNewsRepository.paginatedHits()
+    val trends = hackerNewsRepository.paginatedTrends()
         .cachedIn(viewModelScope)
 
+    val news = hackerNewsRepository.paginatedNews()
+        .cachedIn(viewModelScope)
 
+    val jobs = hackerNewsRepository.paginatedJobs()
+        .cachedIn(viewModelScope)
 }

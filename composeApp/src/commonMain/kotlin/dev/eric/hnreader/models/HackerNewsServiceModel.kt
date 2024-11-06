@@ -16,7 +16,7 @@ data class SearchPayload(
     var page: Int? = null,
     var hitsPerPage: Int = 20,
     var customFilter: NumericFilter? = null,
-    var byDate: Boolean = false,
+    var byDate: Boolean = true,
 )
 
 data class NumericFilter(val min: Int, val max: Int? = null) {
@@ -35,5 +35,6 @@ enum class SearchTags(val tag: String) {
     POLLOPT("pollopt"),
     SHOWHN("show_hn"),
     ASKHN("ask_hn"),
-    FRONTPAGE("front_page")
+    FRONTPAGE("front_page"),
+    JOB("job")
 }
