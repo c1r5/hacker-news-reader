@@ -1,8 +1,8 @@
-package dev.eric.hnreader.screens.news
+package dev.eric.hnreader.ui.screens.jobs
 
 import androidx.compose.runtime.Composable
 import dev.eric.hnreader.viewmodels.HackerNewsViewModel
 
 @Composable
-actual fun NewsScreen(viewModel: HackerNewsViewModel) {
+actual fun JobsScreen(viewModel: HackerNewsViewModel) {
 }

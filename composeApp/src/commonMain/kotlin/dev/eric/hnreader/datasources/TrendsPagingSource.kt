@@ -11,9 +11,7 @@ class TrendsPagingSource(
     private val service: HackerNewsService
 ) : PagingSource<Int, HitDTO>() {
 
-    override fun getRefreshKey(state: PagingState<Int, HitDTO>): Int? {
-        TODO("Implement refresh key")
-    }
+    override fun getRefreshKey(state: PagingState<Int, HitDTO>): Int? = null
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, HitDTO> {
         try {

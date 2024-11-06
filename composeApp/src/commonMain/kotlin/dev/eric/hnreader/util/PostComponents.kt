@@ -23,7 +23,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import dev.eric.hnreader.models.dtos.HitDTO
 import kotlinx.datetime.DateTimeUnit
@@ -149,7 +148,9 @@ private fun PostMetadata(icon: ImageVector, value: String, iconModifier: Modifie
             modifier = iconModifier
         )
         Text(
-            textAlign = TextAlign.Center,
+            fontSize = MaterialTheme.typography.bodyMedium.fontSize,
+            fontWeight = MaterialTheme.typography.bodyMedium.fontWeight,
+            modifier = Modifier.padding(end = 5.dp),
             text = value
         )
     }

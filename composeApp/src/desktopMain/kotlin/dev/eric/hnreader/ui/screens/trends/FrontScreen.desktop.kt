@@ -1,7 +1,8 @@
-package dev.eric.hnreader.screens.jobs
+package dev.eric.hnreader.ui.screens.trends
 
 import androidx.compose.runtime.Composable
 import dev.eric.hnreader.viewmodels.HackerNewsViewModel
 
 @Composable
-expect fun JobsScreen(viewModel: HackerNewsViewModel)
+actual fun TrendsScreen(viewModel: HackerNewsViewModel) {
+}

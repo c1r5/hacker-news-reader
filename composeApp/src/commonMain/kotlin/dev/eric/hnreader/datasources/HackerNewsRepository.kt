@@ -10,9 +10,6 @@ import kotlinx.coroutines.flow.Flow
 class HackerNewsRepository(
     private val hackerNewsService: HackerNewsService
 ) {
-    private val trendsSource = TrendsPagingSource(hackerNewsService)
-    private val newsSource = NewsPagingSource(hackerNewsService)
-    private val jobsSource = JobsPagingSource(hackerNewsService)
 
     private val defaultConfig = PagingConfig(
         pageSize = 20,
@@ -22,13 +19,13 @@ class HackerNewsRepository(
 
     fun paginatedTrends(): Flow<PagingData<HitDTO>> = Pager(
         config = defaultConfig
-    ) { trendsSource }.flow
+    ) { TrendsPagingSource(hackerNewsService) }.flow
 
     fun paginatedNews(): Flow<PagingData<HitDTO>> = Pager(
         config = defaultConfig
-    ) { newsSource }.flow
+    ) { NewsPagingSource(hackerNewsService) }.flow
 
     fun paginatedJobs(): Flow<PagingData<HitDTO>> = Pager(
         config = defaultConfig
-    ) { jobsSource }.flow
+    ) { JobsPagingSource(hackerNewsService) }.flow
 }

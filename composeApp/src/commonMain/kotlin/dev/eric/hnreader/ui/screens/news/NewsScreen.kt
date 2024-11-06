@@ -1,4 +1,4 @@
-package dev.eric.hnreader.screens.news
+package dev.eric.hnreader.ui.screens.news
 
 import androidx.compose.runtime.Composable
 import dev.eric.hnreader.viewmodels.HackerNewsViewModel

@@ -5,7 +5,6 @@ import androidx.paging.PagingState
 import dev.eric.hnreader.models.HackerNewsService
 import dev.eric.hnreader.models.SearchTags
 import dev.eric.hnreader.models.dtos.HitDTO
-import dev.eric.hnreader.util.trendsCalc
 
 class NewsPagingSource(private val service: HackerNewsService) :
     PagingSource<Int, HitDTO>() {
@@ -29,7 +28,5 @@ class NewsPagingSource(private val service: HackerNewsService) :
         }
     }
 
-    override fun getRefreshKey(state: PagingState<Int, HitDTO>): Int? {
-        TODO("Not yet implemented")
-    }
+    override fun getRefreshKey(state: PagingState<Int, HitDTO>): Int? = null
 }

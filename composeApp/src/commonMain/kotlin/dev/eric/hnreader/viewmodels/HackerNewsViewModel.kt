@@ -17,4 +17,5 @@ class HackerNewsViewModel(
 
     val jobs = hackerNewsRepository.paginatedJobs()
         .cachedIn(viewModelScope)
+
 }

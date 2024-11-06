@@ -3,6 +3,7 @@ package dev.eric.hnreader.ui.activities
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
@@ -27,13 +28,16 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.eric.hnreader.App
 import dev.eric.hnreader.koinViewModel
 import dev.eric.hnreader.models.dtos.HitDTO
-import dev.eric.hnreader.screens.jobs.JobsScreen
-import dev.eric.hnreader.screens.news.NewsScreen
-import dev.eric.hnreader.screens.trends.TrendsScreen
-import dev.eric.hnreader.screens.trends.TrendsScreenMock
+import dev.eric.hnreader.ui.screens.jobs.JobsScreen
+import dev.eric.hnreader.ui.screens.news.NewsScreen
+import dev.eric.hnreader.ui.screens.trends.TrendsScreen
+import dev.eric.hnreader.ui.screens.trends.TrendsScreenMock
+import dev.eric.hnreader.viewmodels.HackerNewsViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,8 +62,7 @@ class BottomAppBarItem(
 
 sealed class ScreenLayout(
     val topAppBar: TopAppBarItem,
-    val bottomAppBar: BottomAppBarItem,
-) {
+    val bottomAppBar: BottomAppBarItem, ) {
     data object Trends : ScreenLayout(
         topAppBar = TopAppBarItem(
             title = "Top Stories"
@@ -93,7 +96,7 @@ sealed class ScreenLayout(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AndroidInterface(mockScreen: @Composable (Modifier) -> Unit = {}) {
+fun AndroidInterface(viewModel: HackerNewsViewModel = koinViewModel()) {
     val topics = remember {
         listOf(
             ScreenLayout.Trends,
@@ -112,9 +115,7 @@ fun AndroidInterface(mockScreen: @Composable (Modifier) -> Unit = {}) {
         pagerState.animateScrollToPage(topics.indexOf(currentTopic))
     }
 
-    LaunchedEffect(
-        pagerState.targetPage
-    ) {
+    LaunchedEffect(pagerState.targetPage) {
         currentTopic = topics[pagerState.targetPage]
     }
 
@@ -147,9 +148,9 @@ fun AndroidInterface(mockScreen: @Composable (Modifier) -> Unit = {}) {
         ) { page ->
             val item = topics[page]
             when (item) {
-                ScreenLayout.Trends -> TrendsScreen(koinViewModel())
-                ScreenLayout.News -> NewsScreen(koinViewModel())
-                ScreenLayout.Jobs -> JobsScreen(koinViewModel())
+                ScreenLayout.Trends -> TrendsScreen(viewModel)
+                ScreenLayout.News -> NewsScreen(viewModel)
+                ScreenLayout.Jobs -> JobsScreen(viewModel)
             }
         }
     }
@@ -169,7 +170,7 @@ fun appBarColors() = TopAppBarDefaults.topAppBarColors(
 )
 
 @Composable
-@androidx.compose.ui.tooling.preview.Preview
+@Preview
 fun AppAndroidPreview() {
     val storyItems by remember {
         mutableStateOf(List(10) {
@@ -188,11 +189,11 @@ fun AppAndroidPreview() {
             )
         })
     }
-    AndroidInterface {
-        TrendsScreenMock(
-            modifier = it,
-            hits = storyItems
-        )
+
+    Scaffold {innerPadding ->
+        Box(modifier = Modifier.padding(innerPadding)) {
+            TrendsScreenMock(storyItems)
+        }
     }
 }
 

@@ -28,7 +28,5 @@ class JobsPagingSource(private val service: HackerNewsService) : PagingSource<In
         }
     }
 
-    override fun getRefreshKey(state: PagingState<Int, HitDTO>): Int? {
-        TODO("Not yet implemented")
-    }
+    override fun getRefreshKey(state: PagingState<Int, HitDTO>): Int? = null
 }
