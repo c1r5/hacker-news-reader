@@ -15,15 +15,18 @@ fun elapsedTime(timestamp: Long): ElapsedTime {
     val endInstant = Clock.System.now()
     val elapsedHours = startInstant.until(endInstant, DateTimeUnit.HOUR)
     val elapsedMinutes = startInstant.until(endInstant, DateTimeUnit.MINUTE)
+    val elapsedSeconds = startInstant.until(endInstant, DateTimeUnit.SECOND)
     val elapsedDays = elapsedHours / 24
 
     return elapsedHours.toInt().let {
-        if (it < 0) {
+        if (it <= 0) {
             ElapsedTime(elapsedMinutes.toInt(), DateTimeUnit.MINUTE)
         } else if (it > 24) {
             ElapsedTime(elapsedDays.toInt(), DateTimeUnit.DAY)
-        } else {
+        } else if (it in 2..24) {
             ElapsedTime(it, DateTimeUnit.HOUR)
+        } else {
+            ElapsedTime(elapsedSeconds.toInt(), DateTimeUnit.SECOND)
         }
     }
 }
