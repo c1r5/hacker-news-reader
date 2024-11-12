@@ -6,6 +6,7 @@ import dev.eric.hnreader.models.HackerNewsService
 import dev.eric.hnreader.models.SearchTags
 import dev.eric.hnreader.models.dtos.HitDTO
 import dev.eric.hnreader.util.trendsCalc
+import kotlinx.datetime.Instant
 
 class TrendsPagingSource(
     private val service: HackerNewsService
@@ -22,8 +23,9 @@ class TrendsPagingSource(
 
             val response = service.search(defaultSearchPayload).getOrThrow()
             val sortedHits = response.hits.sortedByDescending {
-                trendsCalc(it.points ?: 0, it.createdAtI)
+                trendsCalc(it.points ?: 0, Instant.parse(it.createdAt).toEpochMilliseconds())
             }
+
             return LoadResult.Page(
                 data = sortedHits,
                 nextKey = response.page + 1,

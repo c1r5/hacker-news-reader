@@ -11,6 +11,8 @@ fun main() = application {
         onCloseRequest = ::exitApplication,
         title = "Hacker News Reader",
     ) {
-        App()
+        App {
+
+        }
     }
 }

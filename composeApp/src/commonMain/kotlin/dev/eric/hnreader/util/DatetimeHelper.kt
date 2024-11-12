@@ -8,7 +8,17 @@ import kotlinx.datetime.until
 data class ElapsedTime(
     val time: Int,
     val unit: DateTimeUnit
-)
+) {
+    fun toHumanReadable(): String {
+        return when (unit) {
+            DateTimeUnit.SECOND -> "${time}s"
+            DateTimeUnit.MINUTE -> "${time}m"
+            DateTimeUnit.HOUR -> "${time}h"
+            DateTimeUnit.DAY -> "${time}d"
+            else -> throw IllegalArgumentException("Unsupported time unit: $unit")
+        }
+    }
+}
 
 fun elapsedTime(timestamp: Long): ElapsedTime {
     val startInstant = Instant.fromEpochSeconds(timestamp)

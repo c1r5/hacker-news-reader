@@ -1,16 +1,15 @@
-package dev.eric.hnreader.ui.screens.trends
+package dev.eric.hnreader.ui.screens.jobs
 
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import dev.eric.hnreader.models.dtos.HitDTO
 import dev.eric.hnreader.ui.components.PostItem
 
 @Composable
-fun TrendsScreenMock(hits: List<HitDTO>) {
+fun JobScreenMock(hits: List<HitDTO.JobHitDTO>) {
     LazyColumn {
-        items(hits) { hit ->
-            PostItem(hit)
+        items(hits.size) { index ->
+            PostItem(hits[index])
         }
     }
 }

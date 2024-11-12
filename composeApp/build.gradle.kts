@@ -60,7 +60,12 @@ kotlin {
             implementation(libs.koin.compose)
             implementation(libs.androidx.lifecycle.viewmodel.ktx)
             implementation(libs.androidx.lifecycle.viewmodel.compose)
+            implementation(libs.jsoup)
 
+            implementation(libs.coil.compose.core)
+            implementation(libs.coil.compose)
+            implementation(libs.coil.mp)
+            implementation(libs.coil.network.ktor)
 
             implementation(libs.androidx.navigation.compose)
             implementation(libs.kotlinx.coroutines.test)

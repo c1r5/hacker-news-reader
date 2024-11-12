@@ -7,7 +7,7 @@ import androidx.paging.cachedIn
 import dev.eric.hnreader.datasources.HackerNewsRepository
 
 class HackerNewsViewModel(
-    private val hackerNewsRepository: HackerNewsRepository
+    hackerNewsRepository: HackerNewsRepository
 ) : ViewModel() {
     val trends = hackerNewsRepository.paginatedTrends()
         .cachedIn(viewModelScope)
@@ -17,5 +17,4 @@ class HackerNewsViewModel(
 
     val jobs = hackerNewsRepository.paginatedJobs()
         .cachedIn(viewModelScope)
-
 }

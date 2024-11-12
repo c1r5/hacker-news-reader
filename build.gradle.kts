@@ -8,3 +8,11 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform) apply false
     alias(libs.plugins.kotlin.serialization) apply false
 }
+
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+        maven("https://maven.pkg.jetbrains.space/kotlin/p/wasm/experimental")
+    }
+}

@@ -1,5 +1,4 @@
 [versions]
-accompanistSwiperefresh = "0.36.0"
 agp = "8.2.2"
 android-compileSdk = "34"
 android-minSdk = "24"
@@ -8,6 +7,8 @@ androidx-activityCompose = "1.9.3"
 androidx-core-ktx = "1.15.0"
 androidx-espresso-core = "3.6.1"
 androidx-test-junit = "1.2.1"
+coil3 = "3.0.0-alpha06"
+jsoup = "1.14.3"
 junit = "4.13.2"
 kotlin = "2.0.20"
 kotlinxCoroutinesTest = "1.9.0"
@@ -30,6 +31,11 @@ androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-view
 androidx-paging-common = { module = "androidx.paging:paging-common", version.ref = "pagingRuntimeVersion" }
 androidx-paging-compose = { module = "androidx.paging:paging-compose", version.ref = "pagingRuntimeVersion" }
 androidx-paging-runtime = { module = "androidx.paging:paging-runtime", version.ref = "pagingRuntimeVersion" }
+coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil3" }
+coil-compose-core = { module = "io.coil-kt.coil3:coil-compose-core", version.ref = "coil3" }
+coil-network-ktor = { module = "io.coil-kt.coil3:coil-network-ktor", version.ref = "coil3" }
+coil-mp = { module = "io.coil-kt.coil3:coil", version.ref = "coil3" }
+jsoup = { module = "org.jsoup:jsoup", version.ref = "jsoup" }
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinxCoroutinesTest" }
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetime" }
 kotlinx-coroutines-swing = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-swing", version.ref = "kotlinx-coroutines" }

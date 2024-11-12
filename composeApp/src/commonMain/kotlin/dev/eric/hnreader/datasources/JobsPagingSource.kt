@@ -6,7 +6,8 @@ import dev.eric.hnreader.models.HackerNewsService
 import dev.eric.hnreader.models.SearchTags
 import dev.eric.hnreader.models.dtos.HitDTO
 
-class JobsPagingSource(private val service: HackerNewsService) : PagingSource<Int, HitDTO>() {
+class JobsPagingSource(private val service: HackerNewsService) :
+    PagingSource<Int, HitDTO>() {
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, HitDTO> {
         try {
             val defaultSearchPayload = service.defaultPayload.apply {
