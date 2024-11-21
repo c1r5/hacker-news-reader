@@ -1,11 +1,29 @@
-This is a Kotlin Multiplatform project targeting Android, Desktop.
-
-* `/composeApp` is for code that will be shared across your Compose Multiplatform applications.
-  It contains several subfolders:
-  - `commonMain` is for code that’s common for all targets.
-  - Other folders are for Kotlin code that will be compiled for only the platform indicated in the folder name.
-    For example, if you want to use Apple’s CoreCrypto for the iOS part of your Kotlin app,
-    `iosMain` would be the right folder for such calls.
 
 
-Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html)…
+## Tech News  App
+_An application that's use [HN Algolia: ycombinator based API](https://hn.algolia.com/api) to get tech stories and topics._
+### Platforms
+- [X] Android
+- [ ] IOS
+- [ ] Desktop
+### Features
+- [x] Home
+- - [x] Trends
+- - [x] News
+- - [x] Jobs
+- - [ ] Dark/Light mode switch
+- - [ ] Save
+- - [ ] Share
+- [ ] Story and Comments read screen
+- [ ] Profile
+- [ ] Database SSOT
+### Technologies
+- Kotlin Multiplatform
+- Compose multiplatform
+- Ktor to Http Requests
+- Pager and TabLayout to navigate between screens
+- Material3 for design
+- Coil to load images and URL icons
+- JsonUp to parse URLs icons
+- Kotlin Coroutines and Paging to improves performance and async loading.
+- PullToRefresh to reload stories.
