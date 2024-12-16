@@ -17,6 +17,13 @@ _An application that's use [HN Algolia: ycombinator based API](https://hn.algoli
 - [ ] Story and Comments read screen
 - [ ] Profile
 - [ ] Database SSOT
+### Screens
+- Trends
+- <img src="https://github.com/c1r5/hacker-news-reader/blob/main/screens/trends.png" width="250"/>
+- News
+- <img src="https://github.com/c1r5/hacker-news-reader/blob/main/screens/news.png" width="250"/>
+- Jobs
+- <img src="https://github.com/c1r5/hacker-news-reader/blob/main/screens/jobs.png" width="250"/>
 ### Technologies
 - Kotlin Multiplatform
 - Compose multiplatform
