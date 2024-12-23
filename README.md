@@ -8,7 +8,7 @@ _An application that's use [HN Algolia: ycombinator based API](https://hn.algoli
 - [ ] Desktop
 ### Features
 - [x] Home
-- - [x] Trends
+- - [x] Trends 
 - - [x] News
 - - [x] Jobs
 - - [ ] Dark/Light mode switch

@@ -25,6 +25,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import dev.eric.hnreader.App
 import dev.eric.hnreader.koinViewModel
 import dev.eric.hnreader.ui.models.TabLayout
@@ -46,9 +47,10 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AndroidInterface(viewModel: HackerNewsViewModel = koinViewModel()) {
+fun AndroidInterface() {
     val tabs = remember {
         listOf(
             TabLayout.Trends,
@@ -58,10 +60,7 @@ fun AndroidInterface(viewModel: HackerNewsViewModel = koinViewModel()) {
     }
     var tabIndex by remember { mutableIntStateOf(0) }
     var currentTab by remember { mutableStateOf(tabs[tabIndex]) }
-
     val pagerState = rememberPagerState { tabs.size }
-
-
 
     LaunchedEffect(currentTab) {
         tabIndex = tabs.indexOf(currentTab)
@@ -114,17 +113,15 @@ fun AndroidInterface(viewModel: HackerNewsViewModel = koinViewModel()) {
             HorizontalPager(pagerState) { page ->
                 val item = tabs[page]
                 when (item) {
-                    TabLayout.Trends -> TrendsScreen(viewModel)
-                    TabLayout.News -> NewsScreen(viewModel)
-                    TabLayout.Jobs -> JobsScreen(viewModel)
+                    TabLayout.Trends -> TrendsScreen()
+                    TabLayout.News -> NewsScreen()
+                    TabLayout.Jobs -> JobsScreen()
                 }
             }
         }
 
     }
 }
-
-
 
 
 

@@ -1,4 +1,4 @@
-rootProject.name = "HackerNewsReader"
+rootProject.name = "TechNewsReader"
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 pluginManagement {

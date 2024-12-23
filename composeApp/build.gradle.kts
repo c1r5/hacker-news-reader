@@ -1,4 +1,3 @@
-import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
@@ -21,7 +20,6 @@ kotlin {
     jvm("desktop")
 
     sourceSets {
-        val desktopMain by getting
         val commonMain by getting
         val androidMain by getting {
             resources.srcDirs("src/androidMain/res", "src/commonMain/commonResources")
@@ -74,13 +72,6 @@ kotlin {
 
 
         }
-        desktopMain.dependencies {
-            implementation(compose.desktop.currentOs)
-            implementation(libs.koin.core)
-            implementation(libs.ktor.client.okhttp)
-            implementation(libs.kotlinx.coroutines.swing)
-        }
-
     }
 }
 
@@ -123,17 +114,6 @@ compose.resources {
     publicResClass = true
     packageOfResClass = "dev.eric.hnreader.resources"
     generateResClass = auto
-}
-compose.desktop {
-    application {
-        mainClass = "dev.eric.hnreader.MainKt"
-
-        nativeDistributions {
-            targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageName = "dev.eric.hnreader"
-            packageVersion = "1.0.0"
-        }
-    }
 }
 
 dependencies {
