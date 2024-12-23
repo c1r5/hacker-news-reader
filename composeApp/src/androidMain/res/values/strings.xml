@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Tech News Reader</string>
+    <string name="post_screen">Post</string>
 </resources>

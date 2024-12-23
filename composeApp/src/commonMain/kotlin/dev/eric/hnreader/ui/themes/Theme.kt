@@ -6,7 +6,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
-import dev.eric.hnreader.ui.themes.HackerNewsTheme.isDarkTheme
+import dev.eric.hnreader.ui.themes.TechNewsTheme.isDarkTheme
 
 
 val LightColors = lightColorScheme(
@@ -22,7 +22,7 @@ val DarkColors = darkColorScheme(
 )
 
 @Composable
-fun HackerNewsTheme(content: @Composable () -> Unit) {
+fun TechNewsTheme(content: @Composable () -> Unit) {
     val colors = if (isDarkTheme) {
         DarkColors
     } else {
@@ -36,7 +36,7 @@ fun HackerNewsTheme(content: @Composable () -> Unit) {
     )
 }
 
-object HackerNewsTheme {
+object TechNewsTheme {
     val isDarkTheme: Boolean
         @Composable
         get() = isSystemInDarkTheme()

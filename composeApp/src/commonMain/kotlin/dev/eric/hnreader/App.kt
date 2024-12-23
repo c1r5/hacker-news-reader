@@ -3,7 +3,7 @@ package dev.eric.hnreader
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
-import dev.eric.hnreader.ui.themes.HackerNewsTheme
+import dev.eric.hnreader.ui.themes.TechNewsTheme
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.KoinContext
 import org.koin.compose.currentKoinScope
@@ -13,7 +13,7 @@ import org.koin.compose.currentKoinScope
 @Preview
 fun App(platformInterface: @Composable () -> Unit) {
     KoinContext {
-        HackerNewsTheme {
+        TechNewsTheme {
             platformInterface()
         }
     }

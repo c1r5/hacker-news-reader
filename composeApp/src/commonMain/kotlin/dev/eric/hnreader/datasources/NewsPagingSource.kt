@@ -4,11 +4,11 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import dev.eric.hnreader.models.HackerNewsService
 import dev.eric.hnreader.models.SearchTags
-import dev.eric.hnreader.models.dtos.HitDTO
+import dev.eric.hnreader.models.dtos.PostDTO
 
 class NewsPagingSource(private val service: HackerNewsService) :
-    PagingSource<Int, HitDTO>() {
-    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, HitDTO> {
+    PagingSource<Int, PostDTO>() {
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, PostDTO> {
         try {
             val defaultSearchPayload = service.defaultPayload.apply {
                 page = params.key ?: 0
@@ -28,5 +28,5 @@ class NewsPagingSource(private val service: HackerNewsService) :
         }
     }
 
-    override fun getRefreshKey(state: PagingState<Int, HitDTO>): Int? = null
+    override fun getRefreshKey(state: PagingState<Int, PostDTO>): Int? = null
 }

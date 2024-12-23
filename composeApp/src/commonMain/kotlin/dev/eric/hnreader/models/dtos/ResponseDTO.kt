@@ -18,17 +18,17 @@ import kotlinx.serialization.modules.polymorphic
 @Serializable
 data class ApiResponseDTO(
     @Serializable(with = HitListSerializer::class)
-    val hits: List<HitDTO>,
+    val hits: List<PostDTO>,
     val hitsPerPage: Int,
     val page: Int,
 ) {
     companion object {
         private val json = Json {
             serializersModule = SerializersModule {
-                polymorphic(HitDTO::class) {
-                    subclass(HitDTO.StoryHitDTO::class, HitDTO.StoryHitDTO.serializer())
-                    subclass(HitDTO.JobHitDTO::class, HitDTO.JobHitDTO.serializer())
-                    subclass(HitDTO.CommentHitDTO::class, HitDTO.CommentHitDTO.serializer())
+                polymorphic(PostDTO::class) {
+                    subclass(PostDTO.StoryPostDTO::class, PostDTO.StoryPostDTO.serializer())
+                    subclass(PostDTO.JobPostDTO::class, PostDTO.JobPostDTO.serializer())
+                    subclass(PostDTO.CommentPostDTO::class, PostDTO.CommentPostDTO.serializer())
                 }
                 ignoreUnknownKeys = true
             }
@@ -39,7 +39,7 @@ data class ApiResponseDTO(
 }
 
 @Serializable
-sealed class HitDTO {
+sealed class PostDTO {
     abstract val author: String
     abstract val children: List<Long>?
     abstract val createdAt: String
@@ -53,7 +53,7 @@ sealed class HitDTO {
     abstract val storyText: String?
 
     @Serializable
-    data class StoryHitDTO(
+    data class StoryPostDTO(
         override val objectID: String,
         override val points: Int? = null,
         override val title: String,
@@ -72,10 +72,10 @@ sealed class HitDTO {
         val storyId: Long? = null,
         @SerialName("story_text")
         override val storyText: String? = null,
-    ) : HitDTO()
+    ) : PostDTO()
 
     @Serializable
-    data class JobHitDTO(
+    data class JobPostDTO(
         override val storyText: String? = null,
         override val numComments: Int? = null,
         override val points: Int? = null,
@@ -90,10 +90,10 @@ sealed class HitDTO {
         override val title: String,
         @SerialName("updated_at")
         override val updatedAt: String,
-    ) : HitDTO()
+    ) : PostDTO()
 
     @Serializable
-    data class CommentHitDTO(
+    data class CommentPostDTO(
         override val storyText: String? = null,
         override val numComments: Int? = null,
         override val url: String? = null,
@@ -115,11 +115,11 @@ sealed class HitDTO {
         val storyUrl: String,
         @SerialName("updated_at")
         override val updatedAt: String,
-    ) : HitDTO()
+    ) : PostDTO()
 
 }
 
-object HitListSerializer : JsonTransformingSerializer<List<HitDTO>>(ListSerializer(HitSerializer)) {
+object HitListSerializer : JsonTransformingSerializer<List<PostDTO>>(ListSerializer(HitSerializer)) {
     override fun transformDeserialize(element: JsonElement): JsonElement {
         // Filtra objetos desconhecidos da lista
         val filteredHits = element.jsonArray.filter {
@@ -131,19 +131,19 @@ object HitListSerializer : JsonTransformingSerializer<List<HitDTO>>(ListSerializ
     }
 }
 
-object HitSerializer : JsonContentPolymorphicSerializer<HitDTO>(HitDTO::class) {
-    override fun selectDeserializer(element: JsonElement): DeserializationStrategy<HitDTO> {
+object HitSerializer : JsonContentPolymorphicSerializer<PostDTO>(PostDTO::class) {
+    override fun selectDeserializer(element: JsonElement): DeserializationStrategy<PostDTO> {
         return when {
             // Checa por StoryHit: se tiver "story_text" ou uma combinação de "url" sem "job_text"
             "story_text" in element.jsonObject || ("url" in element.jsonObject && "job_text" !in element.jsonObject) -> {
-                HitDTO.StoryHitDTO.serializer()
+                PostDTO.StoryPostDTO.serializer()
             }
             // Checa por JobHit: se tiver "job_text" ou uma combinação de "url" sem "story_text"
             "job_text" in element.jsonObject || ("url" in element.jsonObject && "story_text" !in element.jsonObject) -> {
-                HitDTO.JobHitDTO.serializer()
+                PostDTO.JobPostDTO.serializer()
             }
 
-            "comment_text" in element.jsonObject -> HitDTO.CommentHitDTO.serializer()
+            "comment_text" in element.jsonObject -> PostDTO.CommentPostDTO.serializer()
 
             else -> {
                 throw SerializationException("Unknown element: $element")

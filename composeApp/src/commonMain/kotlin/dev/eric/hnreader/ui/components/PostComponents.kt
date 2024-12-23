@@ -36,7 +36,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import coil3.compose.rememberAsyncImagePainter
-import dev.eric.hnreader.models.dtos.HitDTO
+import dev.eric.hnreader.models.dtos.PostDTO
 import dev.eric.hnreader.util.elapsedTime
 import dev.eric.hnreader.util.fetchImage
 import kotlinx.coroutines.Dispatchers
@@ -45,8 +45,12 @@ import java.net.URI
 
 @Preview
 @Composable
-fun PostItem(hit: HitDTO, postActions: PostActions? = null) {
+fun PostItem(
+    post: PostDTO,
+    onPostSelected: (PostDTO) -> Unit
+) {
     OutlinedCard(
+        onClick = { onPostSelected(post) },
         shape = ShapeDefaults.Medium,
         modifier = Modifier.fillMaxWidth().padding(10.dp)
     ) {
@@ -54,34 +58,27 @@ fun PostItem(hit: HitDTO, postActions: PostActions? = null) {
             modifier = Modifier.fillMaxSize().padding(10.dp),
             contentAlignment = Alignment.CenterStart
         ) {
-            Column (
+            Column(
                 verticalArrangement = Arrangement.spacedBy(10.dp)
-            ){
-                hit.url?.let {
+            ) {
+                post.url?.let {
                     PostUrlPreview(it)
                     PostURL(it)
                 }
 
-                PostTitle(hit.title)
+                PostTitle(post.title)
 
-                Row (
+                Row(
                     horizontalArrangement = Arrangement.spacedBy(5.dp)
                 ) {
-                    hit.points?.let { PostPointsCount(it) }
-                    hit.numComments?.let { PostComments(it) }
-                    PostAuthor(hit.author)
-                    PostCreated(elapsedTime(hit.createdAtI).toHumanReadable())
+                    post.points?.let { PostPointsCount(it) }
+                    post.numComments?.let { PostComments(it) }
+                    PostAuthor(post.author)
+                    PostCreated(elapsedTime(post.createdAtI).toHumanReadable())
                 }
             }
         }
     }
-}
-
-interface PostActions {
-    fun onPostClick() {}
-    fun onSaveButtonClick() {}
-    fun onShareClick() {}
-    fun onUrlViewClick() {}
 }
 
 @Composable
@@ -130,7 +127,7 @@ private fun PostURL(url: String?) {
         onError = { isLoading = false }
     )
 
-    Row (
+    Row(
         horizontalArrangement = Arrangement.spacedBy(5.dp)
     ) {
         Icon(

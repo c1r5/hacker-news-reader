@@ -4,7 +4,7 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import dev.eric.hnreader.models.HackerNewsService
-import dev.eric.hnreader.models.dtos.HitDTO
+import dev.eric.hnreader.models.dtos.PostDTO
 import kotlinx.coroutines.flow.Flow
 
 class HackerNewsRepository(
@@ -17,15 +17,15 @@ class HackerNewsRepository(
         prefetchDistance = 5
     )
 
-    fun paginatedTrends(): Flow<PagingData<HitDTO>> = Pager(
+    fun paginatedTrends(): Flow<PagingData<PostDTO>> = Pager(
         config = defaultConfig
     ) { TrendsPagingSource(hackerNewsService) }.flow
 
-    fun paginatedNews(): Flow<PagingData<HitDTO>> = Pager(
+    fun paginatedNews(): Flow<PagingData<PostDTO>> = Pager(
         config = defaultConfig
     ) { NewsPagingSource(hackerNewsService) }.flow
 
-    fun paginatedJobs(): Flow<PagingData<HitDTO>> = Pager(
+    fun paginatedJobs(): Flow<PagingData<PostDTO>> = Pager(
         config = defaultConfig
     ) { JobsPagingSource(hackerNewsService) }.flow
 }
