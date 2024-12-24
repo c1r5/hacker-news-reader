@@ -38,7 +38,6 @@ kotlin {
             implementation(libs.ktor.client.okhttp)
             implementation(libs.koin.android)
             implementation(libs.koin.androidx.compose)
-            implementation(libs.ui.tooling.preview)
             implementation(libs.androidx.paging.runtime)
             implementation(libs.androidx.paging.compose)
         }

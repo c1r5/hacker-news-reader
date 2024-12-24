@@ -14,7 +14,8 @@ _An application that's use [HN Algolia: ycombinator based API](https://hn.algoli
 - - [ ] Dark/Light mode switch
 - - [ ] Save
 - - [ ] Share
-- [ ] Story and Comments read screen
+- [ ] Posts
+- - [ ]
 - [ ] Profile
 - [ ] Database SSOT
 ### Screens

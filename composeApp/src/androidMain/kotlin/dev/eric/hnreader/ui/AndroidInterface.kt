@@ -13,6 +13,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -24,8 +25,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import dev.eric.hnreader.R
+import dev.eric.hnreader.koinViewModel
 import dev.eric.hnreader.ui.screens.HomeScreen
 import dev.eric.hnreader.ui.screens.PostScreen
+import dev.eric.hnreader.viewmodels.TechNewsViewModel
 
 
 enum class TechNewsScreen(@StringRes val title: Int, val canNavigateBack: Boolean) {
@@ -67,9 +70,11 @@ fun TechNewsTopAppBar(
 
 @Composable
 fun AndroidInterface(
-    navController: NavHostController = rememberNavController()
+    navController: NavHostController = rememberNavController(),
+    viewModel: TechNewsViewModel = koinViewModel()
 ) {
     var currentScreen by remember { mutableStateOf(TechNewsScreen.Home) }
+    val selectedPost by viewModel.selectedPost.collectAsState()
 
     Scaffold(
         topBar = { TechNewsTopAppBar(
@@ -92,7 +97,7 @@ fun AndroidInterface(
 
             composable(TechNewsScreen.Post.name) {
                 currentScreen = TechNewsScreen.Post
-                PostScreen()
+                PostScreen(selectedPost)
             }
         }
     }
